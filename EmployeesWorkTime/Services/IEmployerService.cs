@@ -13,5 +13,7 @@ namespace EmployeesWorkTime.Services
         Employer GetEmployerById(Guid employerID);
 
         bool UpdateEmployer(Employer employerToUpdate);
+
+        bool DeleteEmployer(Guid employerId);
     }
 }

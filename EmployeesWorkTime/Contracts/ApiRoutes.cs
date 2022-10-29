@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EmployeesWorkTime.Contracts
 {
-    public static class ApiRoots
+    public static class ApiRoutes
     {
         public static class Employees
         {

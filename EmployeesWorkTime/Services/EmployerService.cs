@@ -19,6 +19,17 @@ namespace EmployeesWorkTime.Services
             }
         }
 
+        public bool DeleteEmployer(Guid employerId)
+        {
+            var employer = GetEmployerById(employerId);
+
+            if (employer == null)
+                return false;
+
+            _employees.Remove(employer);
+            return true;
+        }
+
         public Employer GetEmployerById(Guid employerId)
         {
             return _employees.SingleOrDefault(x => x.Id == employerId);

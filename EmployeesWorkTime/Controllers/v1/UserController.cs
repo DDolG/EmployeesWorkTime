@@ -20,13 +20,13 @@ namespace EmployeesWorkTime.Controllers.v1
             _employerServices = employerServices;
         }
 
-        [HttpGet(ApiRoots.Employees.GET_ALL)]
+        [HttpGet(ApiRoutes.Employees.GET_ALL)]
         public IActionResult GetAll()
         {
             return Ok(_employerServices.GetEmployers());
         }
 
-        [HttpGet(ApiRoots.Employees.GET)]
+        [HttpGet(ApiRoutes.Employees.GET)]
         public IActionResult Get([FromRoute]Guid employerId)
         {
             var employer = _employerServices.GetEmployerById(employerId);
@@ -36,7 +36,7 @@ namespace EmployeesWorkTime.Controllers.v1
             return Ok(employer);
         }
 
-        [HttpPut(ApiRoots.Employees.UPDATE)]
+        [HttpPut(ApiRoutes.Employees.UPDATE)]
         public IActionResult Update([FromRoute] Guid employerId,[FromBody] UpdateEmployerRequest request)
         {
             var employer = new Employer()
@@ -52,7 +52,7 @@ namespace EmployeesWorkTime.Controllers.v1
             return NotFound();
         }
 
-        [HttpPost(ApiRoots.Employees.CREATE)]
+        [HttpPost(ApiRoutes.Employees.CREATE)]
         public IActionResult Create([FromBody] CreateEmployerRequest employerRequest)
         {
             var employer = new Employer() { Id = employerRequest.Id};
@@ -63,11 +63,22 @@ namespace EmployeesWorkTime.Controllers.v1
             _employerServices.GetEmployers().Add(employer);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUri = baseUrl + "/" + ApiRoots.Employees.GET.Replace("{employerId}", employer.Id.ToString());
+            var locationUri = baseUrl + "/" + ApiRoutes.Employees.GET.Replace("{employerId}", employer.Id.ToString());
 
             var response = new EmployerResponse() { Id = employer.Id };
 
             return Created(locationUri, response);
+        }
+
+        [HttpDelete(ApiRoutes.Employees.DELETE)]
+        public IActionResult Delete([FromRoute] Guid employerId)
+        {
+            var deleted = _employerServices.DeleteEmployer(employerId);
+
+            if (deleted)
+                return NoContent();
+
+            return NotFound();
         }
     }
 }
