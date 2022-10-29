@@ -25,24 +25,15 @@ namespace EmployeesWorkTime
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            var installers = typeof(Startup).Assembly.ExportedTypes.Where(x =>
+            typeof(IInstaller).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                .Select(Activator.CreateInstance).Cast<IInstaller>().ToList();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<DataContext>();
-            services.AddControllersWithViews();
-            services.AddSwaggerGen(x =>
-            {
-                x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Employer API", Version = "v1" });
-            });
+            installers.ForEach(x => x.InstallService(services, Configuration));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

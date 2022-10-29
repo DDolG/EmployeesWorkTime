@@ -1,4 +1,5 @@
-﻿using EmployeesWorkTime.Domain;
+﻿using EmployeesWorkTime.Contracts;
+using EmployeesWorkTime.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace EmployeesWorkTime.Controllers.v1
             }
         }
 
-        [HttpGet("api/v1/users")]
+        [HttpGet(ApiRoots.Employees.GET_ALL)]
         public IActionResult GetAll()
         {
             return Ok(_employees);
