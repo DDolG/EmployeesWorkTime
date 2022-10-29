@@ -11,5 +11,7 @@ namespace EmployeesWorkTime.Services
         List<Employer> GetEmployers();
 
         Employer GetEmployerById(Guid employerID);
+
+        bool UpdateEmployer(Employer employerToUpdate);
     }
 }

@@ -28,5 +28,17 @@ namespace EmployeesWorkTime.Services
         {
             return _employees;
         }
+
+        public bool UpdateEmployer(Employer employerToUpdate)
+        {
+            var exists = GetEmployerById(employerToUpdate.Id) != null;
+
+            if (!exists)
+                return false;
+
+            var index = _employees.FindIndex(x => x.Id == employerToUpdate.Id);
+            _employees[index] = employerToUpdate;
+            return true;
+        }
     }
 }

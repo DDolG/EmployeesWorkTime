@@ -11,6 +11,7 @@ namespace EmployeesWorkTime.Contracts
         {
             public const string GET_ALL = "api/v1/users";
             public const string GET     = "api/v1/users/{employerId}";
+            public const string UPDATE = "api/v1/users/{employerId}";
             public const string CREATE  = "api/v1/users";
             public const string DELETE = "api/v1/users/{employerId}";
         }

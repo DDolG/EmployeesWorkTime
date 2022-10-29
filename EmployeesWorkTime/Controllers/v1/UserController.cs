@@ -36,6 +36,22 @@ namespace EmployeesWorkTime.Controllers.v1
             return Ok(employer);
         }
 
+        [HttpPut(ApiRoots.Employees.UPDATE)]
+        public IActionResult Update([FromRoute] Guid employerId,[FromBody] UpdateEmployerRequest request)
+        {
+            var employer = new Employer()
+            {
+                Id = employerId,
+                Payroll_Number = request.Payroll_Number
+            };
+
+            var update = _employerServices.UpdateEmployer(employer);
+            if(update)
+                return Ok(employer);
+
+            return NotFound();
+        }
+
         [HttpPost(ApiRoots.Employees.CREATE)]
         public IActionResult Create([FromBody] CreateEmployerRequest employerRequest)
         {

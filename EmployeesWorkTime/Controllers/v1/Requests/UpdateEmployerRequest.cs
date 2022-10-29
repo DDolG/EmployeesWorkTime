@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EmployeesWorkTime.Controllers.v1.Requests
 {
-    public class UpdateEmployerRequest
+    public class CreateEmployerRequest
     {
         public Guid Id { get; set; }
 
