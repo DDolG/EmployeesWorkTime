@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace EmployeesWorkTime.Controllers.v1.Requests
+namespace EmployeesWorkTime.Domain
 {
-    public class UpdateEmployerRequest
+    public class Employee
     {
+        [Key]
         public Guid Id { get; set; }
 
         public string Payroll_Number { get; set; }

@@ -23,7 +23,7 @@ namespace EmployeesWorkTime.Installers
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DataContext>();
 
-            services.AddSingleton<IEmployerService, EmployerService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
         }
     }
 }

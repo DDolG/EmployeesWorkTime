@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using EmployeesWorkTime.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EmployeesWorkTime.Data
 {
@@ -12,5 +10,7 @@ namespace EmployeesWorkTime.Data
             : base(options)
         {
         }
+
+        public DbSet<Employee> Employers { get; set; }
     }
 }
