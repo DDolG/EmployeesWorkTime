@@ -7,7 +7,7 @@ namespace EmployeesWorkTime.Domain
 {
     public class Employer
     {
-        public string UserId { get; set; }
+        public string Id { get; set; }
 
         public string Payroll_Number { get; set; }
 
