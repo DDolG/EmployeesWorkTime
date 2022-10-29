@@ -1,4 +1,5 @@
 using EmployeesWorkTime.Data;
+using EmployeesWorkTime.Installers;
 using EmployeesWorkTime.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,11 +28,7 @@ namespace EmployeesWorkTime
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var installers = typeof(Startup).Assembly.ExportedTypes.Where(x =>
-            typeof(IInstaller).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .Select(Activator.CreateInstance).Cast<IInstaller>().ToList();
-
-            installers.ForEach(x => x.InstallService(services, Configuration));
+            services.InstallServicesAssembly(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
