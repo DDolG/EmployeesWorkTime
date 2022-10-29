@@ -1,5 +1,8 @@
 ﻿using EmployeesWorkTime.Contracts;
+using EmployeesWorkTime.Controllers.v1.Requests;
+using EmployeesWorkTime.Controllers.v1.Responses;
 using EmployeesWorkTime.Domain;
+using EmployeesWorkTime.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,39 +13,45 @@ namespace EmployeesWorkTime.Controllers.v1
 {
     public class UserController : Controller
     {
-        private List<Employer> _employees;
+        private readonly IEmployerService _employerServices;
 
-        public UserController()
+        public UserController(IEmployerService employerServices)
         {
-            _employees = new List<Employer>();
-            for (int i = 0; i < 5; i++)
-            {
-                _employees.Add(new Employer() { Id = Guid.NewGuid().ToString() });
-            }
+            _employerServices = employerServices;
         }
 
         [HttpGet(ApiRoots.Employees.GET_ALL)]
         public IActionResult GetAll()
         {
-            return Ok(_employees);
+            return Ok(_employerServices.GetEmployers());
         }
-        
-        [HttpPost(ApiRoots.Employees.CREATE)]
-        public IActionResult Create([FromBody] Employer employer)
+
+        [HttpGet(ApiRoots.Employees.GET)]
+        public IActionResult Get([FromRoute]Guid employerId)
         {
-            if (string.IsNullOrEmpty(employer.Id))
-                employer.Id = Guid.NewGuid().ToString();
-            _employees.Add(employer);
+            var employer = _employerServices.GetEmployerById(employerId);
+            if (employer == null)
+                return NotFound();
+
+            return Ok(employer);
+        }
+
+        [HttpPost(ApiRoots.Employees.CREATE)]
+        public IActionResult Create([FromBody] CreateEmployerRequest employerRequest)
+        {
+            var employer = new Employer() { Id = employerRequest.Id};
+            
+
+            if (employer.Id != Guid.Empty)
+                employer.Id = Guid.NewGuid();
+            _employerServices.GetEmployers().Add(employer);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUri = baseUrl + "/" + ApiRoots.Employees.GET.Replace("{employerId}", employer.Id); 
-            return Created(locationUri,employer);
-        }
+            var locationUri = baseUrl + "/" + ApiRoots.Employees.GET.Replace("{employerId}", employer.Id.ToString());
 
-        [HttpGet("api/v1/user")]
-        public IActionResult Get()
-        {
-            return Ok(new { name = "Gosha" });
+            var response = new EmployerResponse() { Id = employer.Id };
+
+            return Created(locationUri, response);
         }
     }
 }

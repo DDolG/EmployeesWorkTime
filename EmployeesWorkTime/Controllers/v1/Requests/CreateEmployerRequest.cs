@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmployeesWorkTime.Domain
+namespace EmployeesWorkTime.Controllers.v1.Requests
 {
-    public class Employer
+    public class CreateEmployerRequest
     {
         public Guid Id { get; set; }
 

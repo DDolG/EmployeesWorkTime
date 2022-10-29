@@ -1,4 +1,5 @@
 ﻿using EmployeesWorkTime.Data;
+using EmployeesWorkTime.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,8 @@ namespace EmployeesWorkTime.Installers
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DataContext>();
+
+            services.AddSingleton<IEmployerService, EmployerService>();
         }
     }
 }
