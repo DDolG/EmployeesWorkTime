@@ -2,7 +2,7 @@
 
 namespace EmployeesWorkTime.Controllers.v1.Requests
 {
-    public class UpdateEmployerRequest
+    public class CreateEmployeeRequest
     {
         public string Payroll_Number { get; set; }
 

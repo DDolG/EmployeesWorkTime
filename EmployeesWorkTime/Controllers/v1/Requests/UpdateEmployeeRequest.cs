@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EmployeesWorkTime.Controllers.v1.Requests
 {
-    public class CreateEmployerRequest
+    public class UpdateEmployeeRequest
     {
         public Guid Id { get; set; }
 

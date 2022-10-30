@@ -8,14 +8,14 @@ namespace EmployeesWorkTime.Services
 {
     public interface IEmployeeService
     {
-        Task<List<Employee>> GetEmployersAsync();
+        Task<List<Employee>> GetEmployeesAsync();
 
-        Task<Employee> GetEmployerByIdAsync(Guid employerID);
+        Task<Employee> GetEmployeeByIdAsync(Guid employerID);
 
-        Task<bool> UpdateEmployerAsync(Employee employerToUpdate);
+        Task<bool> UpdateEmployeeAsync(Employee employerToUpdate);
 
-        Task<bool> DeleteEmployerAsync(Guid employerId);
+        Task<bool> DeleteEmployeeAsync(Guid employerId);
 
-        Task<bool> CreateEmployerAsync(Employee employer);
+        Task<bool> CreateEmployeeAsync(Employee employer);
     }
 }
