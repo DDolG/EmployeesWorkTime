@@ -18,9 +18,9 @@ namespace EmployeesWorkTime.Services
         }
 
         
-        public async Task<bool> DeleteEmployerAsync(Guid employeeId)
+        public async Task<bool> DeleteEmployeeAsync(Guid employeeId)
         {
-            var employer = await GetEmployerByIdAsync(employeeId);
+            var employer = await GetEmployeeByIdAsync(employeeId);
             if (employer == null)
                 return false;
            _dataContext.Employers.Remove(employer);
@@ -28,24 +28,24 @@ namespace EmployeesWorkTime.Services
             return deleted > 0;
         }
 
-        public async Task<Employee> GetEmployerByIdAsync(Guid employeeId)
+        public async Task<Employee> GetEmployeeByIdAsync(Guid employeeId)
         {
             return await _dataContext.Employers.SingleOrDefaultAsync(x => x.Id == employeeId);
         }
 
-        public async Task<List<Employee>> GetEmployersAsync()
+        public async Task<List<Employee>> GetEmployeesAsync()
         {
             return await _dataContext.Employers.ToListAsync();
         }
 
-        public async Task<bool> UpdateEmployerAsync(Employee employeeToUpdate)
+        public async Task<bool> UpdateEmployeeAsync(Employee employeeToUpdate)
         {
             _dataContext.Employers.Update(employeeToUpdate);
             var update = await _dataContext.SaveChangesAsync();
             return update > 0;
         }
 
-        public async Task<bool> CreateEmployerAsync(Employee employee)
+        public async Task<bool> CreateEmployeeAsync(Employee employee)
         {
             await _dataContext.Employers.AddAsync(employee);
             var created = await _dataContext.SaveChangesAsync();

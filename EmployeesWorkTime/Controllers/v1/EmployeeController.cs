@@ -11,68 +11,68 @@ namespace EmployeesWorkTime.Controllers.v1
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeService _employerServices;
+        private readonly IEmployeeService _employeeServices;
 
-        public EmployeeController(IEmployeeService employerServices)
+        public EmployeeController(IEmployeeService employeeServices)
         {
-            _employerServices = employerServices;
+            _employeeServices = employeeServices;
         }
 
         [HttpGet(ApiRoutes.Employees.GET_ALL)]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _employerServices.GetEmployersAsync());
+            return Ok(await _employeeServices.GetEmployeesAsync());
         }
 
         [HttpGet(ApiRoutes.Employees.GET)]
-        public async Task<IActionResult> Get([FromRoute]Guid employerId)
+        public async Task<IActionResult> Get([FromRoute]Guid employeeId)
         {
-            var employer = _employerServices.GetEmployerByIdAsync(employerId);
-            if (employer == null)
+            var employee = _employeeServices.GetEmployeeByIdAsync(employeeId);
+            if (employee?.Result == null)
                 return NotFound();
 
-            return Ok(employer);
+            return Ok(employee.Result);
         }
 
         [HttpPut(ApiRoutes.Employees.UPDATE)]
-        public async Task<IActionResult> Update([FromRoute] Guid employerId,[FromBody] UpdateEmployerRequest request)
+        public async Task<IActionResult> Update([FromRoute] Guid employeeId,[FromBody] UpdateEmployeeRequest request)
         {
-            var employer = new Employee()
+            var employee = new Employee()
             {
-                Id = employerId,
+                Id = employeeId,
                 Payroll_Number = request.Payroll_Number
             };
 
-            var update = await _employerServices.UpdateEmployerAsync(employer);
+            var update = await _employeeServices.UpdateEmployeeAsync(employee);
             if(update)
-                return Ok(employer);
+                return Ok(employee);
 
             return NotFound();
         }
 
         [HttpPost(ApiRoutes.Employees.CREATE)]
-        public async Task<IActionResult> Create([FromBody] CreateEmployerRequest employerRequest)
+        public async Task<IActionResult> Create([FromBody] CreateEmployeeRequest employeeRequest)
         {
-            var employer = new Employee() { Payroll_Number = employerRequest.Payroll_Number};
+            var employee = new Employee() { Payroll_Number = employeeRequest.Payroll_Number};
             
 
-            if (employer.Id != Guid.Empty)
-                employer.Id = Guid.NewGuid();
+            if (employee.Id != Guid.Empty)
+                employee.Id = Guid.NewGuid();
 
-            await _employerServices.CreateEmployerAsync(employer);
+            await _employeeServices.CreateEmployeeAsync(employee);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUri = baseUrl + "/" + ApiRoutes.Employees.GET.Replace("{employerId}", employer.Id.ToString());
+            var locationUri = baseUrl + "/" + ApiRoutes.Employees.GET.Replace("{employeeId}", employee.Id.ToString());
 
-            var response = new EmployeeResponse() { Id = employer.Id };
+            var response = new EmployeeResponse() { Id = employee.Id };
 
             return Created(locationUri, response);
         }
 
         [HttpDelete(ApiRoutes.Employees.DELETE)]
-        public async Task<IActionResult> Delete([FromRoute] Guid employerId)
+        public async Task<IActionResult> Delete([FromRoute] Guid employeeId)
         {
-            var deleted = await _employerServices.DeleteEmployerAsync(employerId);
+            var deleted = await _employeeServices.DeleteEmployeeAsync(employeeId);
 
             if (deleted)
                 return NoContent();
