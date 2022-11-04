@@ -1,4 +1,5 @@
-﻿using EmployeesWorkTime.Contracts;
+﻿using AutoMapper;
+using EmployeesWorkTime.Contracts;
 using EmployeesWorkTime.Controllers.v1.Requests;
 using EmployeesWorkTime.Controllers.v1.Responses;
 using EmployeesWorkTime.Domain;
@@ -12,10 +13,12 @@ namespace EmployeesWorkTime.Controllers.v1
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeServices;
+        private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeService employeeServices)
+        public EmployeeController(IEmployeeService employeeServices, IMapper mapper)
         {
             _employeeServices = employeeServices;
+            _mapper = mapper;
         }
 
         [HttpGet(ApiRoutes.Employees.GET_ALL)]
@@ -37,12 +40,8 @@ namespace EmployeesWorkTime.Controllers.v1
         [HttpPut(ApiRoutes.Employees.UPDATE)]
         public async Task<IActionResult> Update([FromRoute] Guid employeeId,[FromBody] UpdateEmployeeRequest request)
         {
-            var employee = new Employee()
-            {
-                Id = employeeId,
-                Payroll_Number = request.Payroll_Number
-            };
-
+            var employee = _mapper.Map<Employee>(request);
+                
             var update = await _employeeServices.UpdateEmployeeAsync(employee);
             if(update)
                 return Ok(employee);
@@ -53,9 +52,8 @@ namespace EmployeesWorkTime.Controllers.v1
         [HttpPost(ApiRoutes.Employees.CREATE)]
         public async Task<IActionResult> Create([FromBody] CreateEmployeeRequest employeeRequest)
         {
-            var employee = new Employee() { Payroll_Number = employeeRequest.Payroll_Number};
+            var employee = _mapper.Map<Employee>(employeeRequest);
             
-
             if (employee.Id != Guid.Empty)
                 employee.Id = Guid.NewGuid();
 
@@ -64,8 +62,7 @@ namespace EmployeesWorkTime.Controllers.v1
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var locationUri = baseUrl + "/" + ApiRoutes.Employees.GET.Replace("{employeeId}", employee.Id.ToString());
 
-            var response = new EmployeeResponse() { Id = employee.Id };
-
+            var response = _mapper.Map<EmployeeResponse>(employee);            
             return Created(locationUri, response);
         }
 

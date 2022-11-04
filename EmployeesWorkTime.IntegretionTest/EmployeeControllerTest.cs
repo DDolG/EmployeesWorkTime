@@ -21,10 +21,10 @@ namespace EmployeesWorkTime.IntegrationTests
 
             //Act
             var response = await TestClient.GetAsync(ApiRoutes.Employees.GET_ALL);
-
-            //Assert
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<List<Employee>>(body);
+
+            //Assert
             Assert.True(response.StatusCode.Equals(HttpStatusCode.OK));
             Assert.False(result.Any());
         }
