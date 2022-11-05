@@ -4,11 +4,9 @@ using EmployeesWorkTime.Controllers.v1.Requests;
 using EmployeesWorkTime.Controllers.v1.Responses;
 using EmployeesWorkTime.Domain;
 using EmployeesWorkTime.Services;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace EmployeesWorkTime.Controllers.v1
@@ -54,7 +52,7 @@ namespace EmployeesWorkTime.Controllers.v1
         }
 
         [HttpPost(ApiRoutes.Employees.CREATE)]
-        public async Task<IActionResult> Create([FromBody] CreateEmployeeRequest employeeRequest)
+        public async Task<IActionResult> Create([FromBody] EmployeeCsvRecord employeeRequest)
         {
             var employee = _mapper.Map<Employee>(employeeRequest);
             

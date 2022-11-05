@@ -19,6 +19,7 @@ namespace EmployeesWorkTime.Contracts
         public static class UploadFile
         {
             public const string UPLOAD_FILE = "api/v1/upload";
+            public const string PARSING_FILE = "api/v1/parsing";
         }
     }
 }
