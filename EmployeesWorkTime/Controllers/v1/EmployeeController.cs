@@ -4,8 +4,11 @@ using EmployeesWorkTime.Controllers.v1.Requests;
 using EmployeesWorkTime.Controllers.v1.Responses;
 using EmployeesWorkTime.Domain;
 using EmployeesWorkTime.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace EmployeesWorkTime.Controllers.v1
@@ -20,6 +23,7 @@ namespace EmployeesWorkTime.Controllers.v1
             _employeeServices = employeeServices;
             _mapper = mapper;
         }
+
 
         [HttpGet(ApiRoutes.Employees.GET_ALL)]
         public async Task<IActionResult> GetAll()

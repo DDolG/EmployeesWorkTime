@@ -15,5 +15,10 @@ namespace EmployeesWorkTime.Contracts
             public const string CREATE  = "api/v1/employees";
             public const string DELETE = "api/v1/employees/{employeeId}";
         }
+
+        public static class UploadFile
+        {
+            public const string UPLOAD_FILE = "api/v1/upload";
+        }
     }
 }
